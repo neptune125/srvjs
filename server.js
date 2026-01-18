@@ -218,12 +218,13 @@ wss.on('connection', (ws) => {
                     break;
 
                 case 'screenshot_data':
-                    // Données du screenshot reçues
+                    // Données du screenshot reçues (pour l'écran principal)
                     if (currentClient) {
                         currentClient.lastScreenshot = message.imageData;
                     }
                     
-                    // Broadcast aux admins (pour l'écran principal)
+                    // Broadcast UNIQUEMENT aux admins qui ont sélectionné ce client
+                    // On envoie l'ID du client avec le screenshot pour que l'admin puisse filtrer
                     broadcastToAdmins({
                         type: 'screenshot_data',
                         data: {
